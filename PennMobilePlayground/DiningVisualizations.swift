@@ -15,9 +15,39 @@ struct CardView<Content> : View where Content : View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(self.colorScheme == ColorScheme.light ? Color.white : Color.black)
-                .shadow(radius: 5)
+                .fill(self.colorScheme == ColorScheme.light ? Color.white : Color.gray)
+                .shadow(color: Color.black.opacity(0.2), radius: 4, x: 2, y: 2)
             self.content()
+        }
+    }
+}
+
+struct DiningBalanceView: View {
+    
+    let description: String
+    let image: Image
+    @State var balance: Double
+    
+    // By default, remove trailing zeros
+    var specifier: String = "%g"
+    var color: Color = .blue
+    
+    var body: some View {
+        CardView {
+            VStack(alignment: .trailing) {
+                HStack {
+                    self.image.font(Font.system(size: 24).weight(.bold))
+                    Spacer()
+                    Text("\(self.balance, specifier: self.specifier)")
+                        .font(.system(size: 24, design: .rounded))
+                        .fontWeight(.bold)
+                }
+                .foregroundColor(self.color)
+                Text(self.description)
+                    .font(.subheadline)
+                    .opacity(0.5)
+            }
+            .padding()
         }
     }
 }
@@ -66,52 +96,14 @@ struct DiningVisualizations: View {
                 }
                 .padding()
                 
-                CardView {
-                    Text("Hello World")
-                }
-                .frame(height: 220)
-                .padding([.leading, .trailing, .bottom])
-                
                 HStack {
-                    CardView {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Image(systemName: "creditcard.fill")
-                                    .font(Font.title.weight(.bold))
-                                Spacer()
-                                Text("57")
-                                    .font(.system(.title, design: .rounded))
-                                    .fontWeight(.bold)
-                            }
-                            Text("Swipes")
-                                .font(.subheadline)
-                                .opacity(0.5)
-                        }
-                        .padding()
-                    }
-                    .frame(height: 100)
+                    DiningBalanceView(description: "Swipes", image: Image(systemName: "creditcard.fill"), balance: 58.00, specifier: "%.f", color: .green)
                     .padding(.leading)
                     .padding(.trailing, 5)
                     
-                    CardView {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Image(systemName: "dollarsign.circle.fill")
-                                    .font(Font.title.weight(.bold))
-                                Spacer()
-                                Text("422.14")
-                                    .font(.system(.title, design: .rounded))
-                                    .fontWeight(.bold)
-                            }
-                            Text("Dining Dollars")
-                                .font(.subheadline)
-                                .opacity(0.5)
-                        }
-                        .padding()
-                    }
-                    .frame(height: 100)
-                    .padding(.trailing)
+                    DiningBalanceView(description: "Dining Dollars", image: Image(systemName: "dollarsign.circle.fill"), balance: 427.84, specifier: "%.2f")
                     .padding(.leading, 5)
+                    .padding(.trailing)
                 }
                 
                 CardView {
@@ -187,7 +179,7 @@ struct DiningVisualizations: View {
                     .animation(.default)
                 }
                 .frame(height: 220)
-                .padding()
+                .padding([.leading, .trailing, .bottom])
                 
                 ZStack {
                     RoundedRectangle(cornerRadius: 15, style: .continuous)
@@ -229,7 +221,7 @@ struct DiningVisualizations: View {
                     .animation(.default)
                 }
                 .frame(height: 220)
-                .padding()
+                .padding([.leading, .trailing, .bottom])
             }
         }
     }
