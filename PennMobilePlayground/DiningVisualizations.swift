@@ -8,6 +8,20 @@
 
 import SwiftUI
 
+struct CardView<Content> : View where Content : View {
+    let content: () -> Content
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(self.colorScheme == ColorScheme.light ? Color.white : Color.black)
+                .shadow(radius: 5)
+            self.content()
+        }
+    }
+}
+
 struct DiningVisualizations: View {
     
     @State var selectedData: Int? = nil
@@ -45,11 +59,21 @@ struct DiningVisualizations: View {
         ScrollView {
             VStack {
                 Toggle("Stats on: \(toggleOn ? "true" : "false")", isOn: $toggleOn)
+                
+                CardView {
+                    Text("Hello World")
+                    .padding()
+                }
+                .padding()
+                
+                CardView {
+                    Text("Hello World")
+                }
+                .frame(height: 220)
+                .padding([.leading, .trailing, .bottom])
+                
                 HStack {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 15, style: .continuous)
-                        .fill(self.colorScheme == ColorScheme.light ? Color.white : Color.black)
-                        .shadow(radius: 5)
+                    CardView {
                         VStack(alignment: .leading) {
                             HStack {
                                 Image(systemName: "creditcard.fill")
@@ -63,16 +87,13 @@ struct DiningVisualizations: View {
                                 .font(.subheadline)
                                 .opacity(0.5)
                         }
-                    .padding()
+                        .padding()
                     }
                     .frame(height: 100)
                     .padding(.leading)
                     .padding(.trailing, 5)
                     
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 15, style: .continuous)
-                        .fill(self.colorScheme == ColorScheme.light ? Color.white : Color.black)
-                        .shadow(radius: 5)
+                    CardView {
                         VStack(alignment: .leading) {
                             HStack {
                                 Image(systemName: "dollarsign.circle.fill")
@@ -86,32 +107,29 @@ struct DiningVisualizations: View {
                                 .font(.subheadline)
                                 .opacity(0.5)
                         }
-                    .padding()
+                        .padding()
                     }
                     .frame(height: 100)
                     .padding(.trailing)
                     .padding(.leading, 5)
                 }
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius: 15, style: .continuous)
-                        .fill(self.colorScheme == ColorScheme.light ? Color.white : Color.black)
-                        .shadow(radius: 5)
+                CardView {
                     VStack {
                         HStack {
-                            Text(selectedData == nil ? "Swipe burn rate 1" : dayValue)
+                            Text(self.selectedData == nil ? "Swipe burn rate 1" : self.dayValue)
                                 .font(.subheadline)
                                 .opacity(0.5)
                             .animation(nil)
                             Spacer()
-                            Text(selectedData == nil ? "$5.74" : "$\(data[selectedData!] * 11.39, specifier: "%.2f")")
+                            Text(self.selectedData == nil ? "$5.74" : "$\(self.data[self.selectedData!] * 11.39, specifier: "%.2f")")
                                 .font(.subheadline)
-                                .foregroundColor(selectedData == nil ? .primary : .green)
+                                .foregroundColor(self.selectedData == nil ? .primary : .green)
                             .animation(nil)
                         }
                         Spacer()
                         HStack(alignment: .bottom) {
-                            ForEach(0..<data.count) { num in
+                            ForEach(0..<self.data.count) { num in
                                 VStack {
                                     Circle().frame(height: 10)
                                         .offset(x: 0, y: -120 * self.data[num])
@@ -130,35 +148,32 @@ struct DiningVisualizations: View {
                 .frame(height: 220)
                 .padding()
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius: 15, style: .continuous)
-                        .fill(self.colorScheme == ColorScheme.light ? Color.white : Color.black)
-                        .shadow(radius: 5)
+                CardView {
                     VStack {
                         HStack {
-                            Text(selectedData == nil ? "Swipe burn rate 2" : dayValue)
+                            Text(self.selectedData == nil ? "Swipe burn rate 2" : self.dayValue)
                                 .font(.subheadline)
                                 .opacity(0.5)
                             .animation(nil)
                             Spacer()
-                            Text(selectedData == nil ? "$5.74" : "$\(data[selectedData!] * 11.39, specifier: "%.2f")")
+                            Text(self.selectedData == nil ? "$5.74" : "$\(self.data[self.selectedData!] * 11.39, specifier: "%.2f")")
                                 .font(.subheadline)
-                                .foregroundColor(selectedData == nil ? .primary : .green)
+                                .foregroundColor(self.selectedData == nil ? .primary : .green)
                             .animation(nil)
                         }
                         Spacer()
                         ZStack(alignment: .bottom) {
                             VStack {
-                                GraphPath(data: lineData).trim(from: 0, to: trimEnd).stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [6]))
+                                GraphPath(data: self.lineData).trim(from: 0, to: self.trimEnd).stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [6]))
                                     .padding(.bottom)
-                                    .foregroundColor(toggleOn ? .blue : Color.black.opacity(0.2))
+                                    .foregroundColor(self.toggleOn ? .blue : Color.black.opacity(0.2))
                                 
                                     .animation(.easeInOut)
                                 
                                 
                                 
                                 HStack() {
-                                    ForEach(0..<lineData.count) { num in
+                                    ForEach(0..<self.lineData.count) { num in
                                         if num != 0 { Spacer() }
                                         Text("W\(num)")
                                         .font(.subheadline)
