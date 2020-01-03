@@ -70,7 +70,18 @@ struct DiningVisualizations: View {
         return toggleOn ? 1.0 : 0.0
     }
     
+    var dollarData: [CGFloat] {
+        return timeFrame == "Week" ? [1.0, 0.0, 0.2, 0.6, 0.7, 0.6, 0.9] : (timeFrame == "Month" ? [1.0, 0.0, 0.2, 0.6, 0.7, 0.6, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.4] : [1.0, 0.0, 0.2, 0.6, 0.7, 0.6, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 1.0, 0.0, 0.2, 0.6, 0.7, 0.6, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9])
+    }
+    
+    var spacingForDollarData: CGFloat {
+        return self.dollarData.count <= 7 ? 6 : (self.dollarData.count <= 33 ? 2 : 0)
+    }
+    
     var dayOfWeek = ["M", "T", "W", "T", "F", "S", "S"]
+    
+    let timeFrames = ["Week", "Month", "Semester"]
+    @State private var timeFrame = "Week"
     
     var dayValue: String {
         switch selectedData {
@@ -96,6 +107,7 @@ struct DiningVisualizations: View {
                 }
                 .padding()
                 
+                // Balance row 1
                 HStack {
                     DiningBalanceView(description: "Swipes", image: Image(systemName: "creditcard.fill"), balance: 58.00, specifier: "%.f", color: .green)
                     .padding(.leading)
@@ -105,6 +117,161 @@ struct DiningVisualizations: View {
                     .padding(.leading, 5)
                     .padding(.trailing)
                 }
+                
+                // Balance row 2
+                HStack {
+                    DiningBalanceView(description: "Guest Swipes", image: Image(systemName: "person.2.fill"), balance: 7.00, specifier: "%.f", color: .purple)
+                    .padding(.leading)
+                    .padding(.trailing, 5)
+                    
+                    DiningBalanceView(description: "Penn Cash", image: Image(systemName: "p.square.fill"), balance: 427.84, specifier: "%.2f", color: .orange)
+                    .padding(.leading, 5)
+                    .padding(.trailing)
+                }
+                .padding([.top, .bottom])
+                
+                
+                CardView {
+                    VStack(alignment: .leading) {
+                        // Top labels
+                        Group {
+                            HStack {
+                                Image(systemName: "dollarsign.circle.fill")
+                                Text("Dining Dollars")
+                            }
+                            .font(Font.body.weight(.medium))
+                            .foregroundColor(.green)
+                            
+                            Text("Over the last 7 days, you spent an average of 7.49 dining dollars per day.")
+                                .fontWeight(.medium)
+                        }
+                        // Graph view
+                        Spacer()
+                        ZStack {
+                            HStack(alignment: .bottom) {
+                                ZStack(alignment: .leading) {
+                                    Spacer()
+                                        .frame(width: 120)
+                                    VStack(alignment: .leading) {
+                                        Text("Average")
+                                        Text("7.49 / day")
+                                    }
+                                }
+                                HStack(alignment: .bottom, spacing: self.spacingForDollarData) {
+                                    ForEach(self.dollarData, id: \.self) { amount in
+                                        VStack {
+                                            RoundedRectangle(cornerRadius: 4).frame(height: 130.0 * amount)
+                                                .foregroundColor(.blue)
+                                                .onTapGesture {
+                                                    /*if self.selectedData == num {
+                                                        self.selectedData = nil
+                                                    } else {
+                                                        self.selectedData = num
+                                                    }*/
+                                                }
+                                                
+                                            /*Text(self.dayOfWeek[num])
+                                                .font(.caption)
+                                                .opacity(0.5)*/
+                                        }
+                                    }
+                                }
+                                .animation(.default)
+                            }
+                            GraphPath(data: [0.5, 0.5, 0.5]).stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [6]))
+                            .padding(.bottom)
+                            .foregroundColor(self.toggleOn ? .blue : Color.black.opacity(0.2))
+                        }
+                        
+                        // Footer
+                        Picker("Pick a time frame", selection: self.$timeFrame) {
+                            ForEach(self.timeFrames, id: \.self) { time in
+                                Text(time)
+                            }
+                        }.pickerStyle(SegmentedPickerStyle())
+                    }
+                .padding()
+                }
+                .frame(height: 290)
+                .padding([.leading, .trailing, .bottom])
+                
+                CardView {
+                    VStack {
+                        HStack {
+                            Text(self.selectedData == nil ? "Dining dollars / day" : self.dayValue)
+                                .font(.subheadline)
+                                .opacity(0.5)
+                            .animation(nil)
+                            Spacer()
+                            Text(self.selectedData == nil ? "$5.74" : "$\(self.data[self.selectedData!] * 11.39, specifier: "%.2f")")
+                                .font(.subheadline)
+                                .foregroundColor(self.selectedData == nil ? .primary : .green)
+                            .animation(nil)
+                        }
+                        Spacer()
+                        HStack(alignment: .bottom) {
+                            ForEach(0..<self.data.count) { num in
+                                VStack {
+                                    RoundedRectangle(cornerRadius: 10).frame(height: 20 + 100.0 * self.data[num])
+                                        .foregroundColor(self.selectedData == num ? .green : .blue)
+                                        .onTapGesture {
+                                            if self.selectedData == num {
+                                                self.selectedData = nil
+                                            } else {
+                                                self.selectedData = num
+                                            }
+                                        }
+                                    Text(self.dayOfWeek[num])
+                                        .font(.subheadline)
+                                        .opacity(0.5)
+                                }
+                            }
+                        }
+                    }
+                    .padding()
+                    .animation(.default)
+                }
+                .frame(height: 220)
+                .padding([.leading, .trailing, .bottom])
+                
+                CardView {
+                    VStack {
+                        HStack {
+                            Text(self.selectedData == nil ? "Dining dollars / day" : self.dayValue)
+                                .font(.subheadline)
+                                .opacity(0.5)
+                            .animation(nil)
+                            Spacer()
+                            Text(self.selectedData == nil ? "$5.74" : "$\(self.data[self.selectedData!] * 11.39, specifier: "%.2f")")
+                                .font(.subheadline)
+                                .foregroundColor(self.selectedData == nil ? .primary : .green)
+                            .animation(nil)
+                        }
+                        Spacer()
+                        HStack(alignment: .bottom) {
+                            ForEach(0..<self.data.count) { num in
+                                VStack {
+                                    RoundedRectangle(cornerRadius: 10).frame(height: 20 + 100.0 * self.data[num])
+                                        .foregroundColor(self.selectedData == num ? .green : .blue)
+                                        .onTapGesture {
+                                            if self.selectedData == num {
+                                                self.selectedData = nil
+                                            } else {
+                                                self.selectedData = num
+                                            }
+                                        }
+                                    Text(self.dayOfWeek[num])
+                                        .font(.subheadline)
+                                        .opacity(0.5)
+                                }
+                            }
+                        }
+                    }
+                    .padding()
+                    .animation(.default)
+                }
+                .frame(height: 220)
+                .padding([.leading, .trailing, .bottom])
                 
                 CardView {
                     VStack {
@@ -174,48 +341,6 @@ struct DiningVisualizations: View {
                                 }
                             }
                         }.animation(.default)
-                    }
-                    .padding()
-                    .animation(.default)
-                }
-                .frame(height: 220)
-                .padding([.leading, .trailing, .bottom])
-                
-                ZStack {
-                    RoundedRectangle(cornerRadius: 15, style: .continuous)
-                        .fill(self.colorScheme == ColorScheme.light ? Color.white : Color.black)
-                        .shadow(radius: 5)
-                    VStack {
-                        HStack {
-                            Text(selectedData == nil ? "Dining dollars / day" : dayValue)
-                                .font(.subheadline)
-                                .opacity(0.5)
-                            .animation(nil)
-                            Spacer()
-                            Text(selectedData == nil ? "$5.74" : "$\(data[selectedData!] * 11.39, specifier: "%.2f")")
-                                .font(.subheadline)
-                                .foregroundColor(selectedData == nil ? .primary : .green)
-                            .animation(nil)
-                        }
-                        Spacer()
-                        HStack(alignment: .bottom) {
-                            ForEach(0..<data.count) { num in
-                                VStack {
-                                    RoundedRectangle(cornerRadius: 10).frame(height: 20 + 100.0 * self.data[num])
-                                        .foregroundColor(self.selectedData == num ? .green : .blue)
-                                        .onTapGesture {
-                                            if self.selectedData == num {
-                                                self.selectedData = nil
-                                            } else {
-                                                self.selectedData = num
-                                            }
-                                        }
-                                    Text(self.dayOfWeek[num])
-                                        .font(.subheadline)
-                                        .opacity(0.5)
-                                }
-                            }
-                        }
                     }
                     .padding()
                     .animation(.default)
