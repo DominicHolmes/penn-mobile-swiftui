@@ -15,7 +15,7 @@ struct CardView<Content> : View where Content : View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(self.colorScheme == ColorScheme.light ? Color.white : Color.gray)
+                .fill(self.colorScheme == ColorScheme.light ? Color.white : Color.gray.opacity(0.2))
                 .shadow(color: Color.black.opacity(0.2), radius: 4, x: 2, y: 2)
             self.content()
         }
@@ -70,15 +70,23 @@ struct DiningVisualizations: View {
         return toggleOn ? 1.0 : 0.0
     }
     
+    let weekDollarData: [CGFloat] = (0..<7).map { _ in CGFloat.random(in: 0.0...1.0) }
+    let monthDollarData: [CGFloat] = (0..<9).map { _ in CGFloat.random(in: 0.0...1.0) }
+    let semesterDollarData: [CGFloat] = (0..<5).map { _ in CGFloat.random(in: 0.0...1.0) }
+    let zeroDollarData: [CGFloat] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     var dollarData: [CGFloat] {
-        return timeFrame == "Week" ? [1.0, 0.0, 0.2, 0.6, 0.7, 0.6, 0.9] : (timeFrame == "Month" ? [1.0, 0.0, 0.2, 0.6, 0.7, 0.6, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.4] : [1.0, 0.0, 0.2, 0.6, 0.7, 0.6, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 1.0, 0.0, 0.2, 0.6, 0.7, 0.6, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9, 0.2, 0.5, 0.0, 0.2, 0.7, 0.0, 0.9])
+        return timeFrame == "Week" ? weekDollarData : (timeFrame == "Month" ? monthDollarData : semesterDollarData)
+    }
+    
+    var averageDollar: CGFloat {
+        return (self.dollarData.reduce(0, +) / CGFloat(self.dollarData.count))
     }
     
     var spacingForDollarData: CGFloat {
         return self.dollarData.count <= 7 ? 6 : (self.dollarData.count <= 33 ? 2 : 0)
     }
     
-    var dayOfWeek = ["M", "T", "W", "T", "F", "S", "S"]
+    var dayOfWeek = ["M", "T", "W", "T", "F", "S", "S", "M", "T", "W", "T", "F", "S", "S", "M", "T", "W", "T", "F", "S", "S"]
     
     let timeFrames = ["Week", "Month", "Semester"]
     @State private var timeFrame = "Week"
@@ -102,10 +110,16 @@ struct DiningVisualizations: View {
                 Toggle("Stats on: \(toggleOn ? "true" : "false")", isOn: $toggleOn)
                 
                 CardView {
-                    Text("Hello World")
+                    DiningRecommendations()
                     .padding()
                 }
                 .padding()
+                
+                CardView {
+                    Text("Hello World this is a Card.")
+                    .padding()
+                }
+                .padding([.leading, .trailing, .bottom])
                 
                 // Balance row 1
                 HStack {
@@ -151,17 +165,29 @@ struct DiningVisualizations: View {
                             HStack(alignment: .bottom) {
                                 ZStack(alignment: .leading) {
                                     Spacer()
-                                        .frame(width: 120)
+                                        .frame(width: 120.0, height: 110.0)
+                                    .animation(nil)
                                     VStack(alignment: .leading) {
                                         Text("Average")
-                                        Text("7.49 / day")
+                                            .font(Font.caption.weight(.bold)).foregroundColor(.gray)
+                                        
+                                        HStack(alignment: .firstTextBaseline) {
+                                            Text("\(14.47 * self.averageDollar, specifier: "%.2f")")
+                                            .font(Font.system(.title, design: .rounded).bold())
+                                            Text("/ day").font(Font.caption.weight(.bold)).foregroundColor(.gray)
+                                        }
+                                        .padding(.top, 8)
                                     }
+                                    .frame(height: 110)
+                                    .animation(.default)
+                                    .offset(x: 0, y: 6 + ((0.5 - self.averageDollar) * 110))
+                                    
                                 }
                                 HStack(alignment: .bottom, spacing: self.spacingForDollarData) {
-                                    ForEach(self.dollarData, id: \.self) { amount in
+                                    ForEach(self.dollarData.indices, id: \.self) { i in
                                         VStack {
-                                            RoundedRectangle(cornerRadius: 4).frame(height: 130.0 * amount)
-                                                .foregroundColor(.blue)
+                                            RoundedRectangle(cornerRadius: 4).frame(height: 110.0 * self.dollarData[i])
+                                                .foregroundColor(Color.black.opacity(0.2))
                                                 .onTapGesture {
                                                     /*if self.selectedData == num {
                                                         self.selectedData = nil
@@ -169,18 +195,23 @@ struct DiningVisualizations: View {
                                                         self.selectedData = num
                                                     }*/
                                                 }
-                                                
-                                            /*Text(self.dayOfWeek[num])
+                                            
+                                            
+                                            
+                                            if self.timeFrame == "Week" {
+                                                Text(self.dayOfWeek[i])
                                                 .font(.caption)
-                                                .opacity(0.5)*/
+                                                .opacity(0.5)
+                                                    
+                                            }
                                         }
                                     }
-                                }
-                                .animation(.default)
+                                }.animation(.default)
                             }
-                            GraphPath(data: [0.5, 0.5, 0.5]).stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [6]))
-                            .padding(.bottom)
-                            .foregroundColor(self.toggleOn ? .blue : Color.black.opacity(0.2))
+                            GraphPath(data: [0.5, 0.5, 0.5]).stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
+                                .foregroundColor(.green)
+                            .offset(x: 0, y: (0.5 - self.averageDollar) * 110)
+                            .animation(.default)
                         }
                         
                         // Footer
