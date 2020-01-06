@@ -108,11 +108,36 @@ struct DiningVisualizations: View {
         ScrollView {
             VStack {
                 Group {
+                    // Balance row 1
+                    HStack {
+                        DiningBalanceView(description: "Swipes", image: Image(systemName: "creditcard.fill"), balance: 58.00, specifier: "%.f", color: .green)
+                            .padding(.leading)
+                            .padding(.trailing, 5)
+                        
+                        DiningBalanceView(description: "Dining Dollars", image: Image(systemName: "dollarsign.circle.fill"), balance: 427.84, specifier: "%.2f")
+                            .padding(.leading, 5)
+                            .padding(.trailing)
+                    }.padding(.top)
+                    
+                    // Balance row 2
+                    HStack {
+                        DiningBalanceView(description: "Guest Swipes", image: Image(systemName: "person.2.fill"), balance: 7.00, specifier: "%.f", color: .purple)
+                            .padding(.leading)
+                            .padding(.trailing, 5)
+                        
+                        DiningBalanceView(description: "Penn Cash", image: Image(systemName: "p.square.fill"), balance: 427.84, specifier: "%.2f", color: .orange)
+                            .padding(.leading, 5)
+                            .padding(.trailing)
+                    }
+                    .padding([.top, .bottom])
+                }
+                
+                Group {
                     CardView {
                         VStack(alignment: .leading) {
                             CardHeader(color: .purple, icon: .predictions, text: "Predictions")
                             
-                            Text("Log into Penn Mobile more often to get more accurate predictions.")
+                            Text("Log into Penn Mobile often to get more accurate predictions.")
                                 .fontWeight(.medium)
                             
                             Divider()
@@ -177,39 +202,14 @@ struct DiningVisualizations: View {
                 }
                 
                 Group {
-                    // Balance row 1
-                    HStack {
-                        DiningBalanceView(description: "Swipes", image: Image(systemName: "creditcard.fill"), balance: 58.00, specifier: "%.f", color: .green)
-                            .padding(.leading)
-                            .padding(.trailing, 5)
-                        
-                        DiningBalanceView(description: "Dining Dollars", image: Image(systemName: "dollarsign.circle.fill"), balance: 427.84, specifier: "%.2f")
-                            .padding(.leading, 5)
-                            .padding(.trailing)
-                    }
-                    
-                    // Balance row 2
-                    HStack {
-                        DiningBalanceView(description: "Guest Swipes", image: Image(systemName: "person.2.fill"), balance: 7.00, specifier: "%.f", color: .purple)
-                            .padding(.leading)
-                            .padding(.trailing, 5)
-                        
-                        DiningBalanceView(description: "Penn Cash", image: Image(systemName: "p.square.fill"), balance: 427.84, specifier: "%.2f", color: .orange)
-                            .padding(.leading, 5)
-                            .padding(.trailing)
-                    }
-                    .padding(.top)
-                }
-                
-                Group {
                     CardView {
-                        LineGraphView(data: [1.0, 0.86, 0.85, 0.7, 0.67, 0.5, 0.45, 0.4, 0.3, 0.0], yAxisLabels: ["240", "180", "120", "60"], xAxisLabels: ["8/14", "9/14", "10/14", "11/14"], header: CardHeader(color: .blue, icon: .swipes, text: "Swipes"), color: .blue)
+                        LineGraphView(data: [1.0, 0.86, 0.85, 0.7, 0.67, 0.5, 0.45, 0.4, 0.3, 0.0], yAxisLabels: ["240", "180", "120", "60"], xAxisLabels: ["8/14", "9/14", "10/14", "11/14"], header: CardHeader(color: .blue, icon: .swipes, text: "Swipes"), headerText: "Your balance over the semester.", color: .blue)
                             .padding()
                     }
                     .padding()
                     
                     CardView {
-                        LineGraphView(data: [1.0, 0.95, 0.92, 0.7, 0.3, 0.21, 0.19, 0.1, 0.09, 0.0], yAxisLabels: ["400", "310", "220", "130"], xAxisLabels: ["8/14", "9/14", "10/14", "11/14"], header: CardHeader(color: .green, icon: .dollars, text: "Dining Dollars"), color: .green)
+                        LineGraphView(data: [1.0, 0.95, 0.92, 0.7, 0.3, 0.21, 0.19, 0.1, 0.09, 0.0], yAxisLabels: ["400", "310", "220", "130"], xAxisLabels: ["8/14", "9/14", "10/14", "11/14"], header: CardHeader(color: .green, icon: .dollars, text: "Dining Dollars"), headerText: "Your balance over the semester.", color: .green)
                             .padding()
                     }
                     .padding()

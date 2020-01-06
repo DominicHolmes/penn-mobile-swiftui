@@ -22,7 +22,7 @@ struct CardHeader: View {
         switch icon {
         case .dollars: return "dollarsign.circle.fill"
         case .swipes: return "creditcard.fill"
-        case .predictions: return "wand.and.stars"
+        case .predictions: return "wand.and.rays"
         }
     }
     
@@ -42,15 +42,18 @@ struct LineGraphView: View {
     let yAxisLabels: [String]
     let xAxisLabels: [String]
     let header: CardHeader
+    let headerText: String
     let color: Color
     @State private var trimEnd: CGFloat = 0.0
+    
+    private let graphHeight: CGFloat = 160.0
     
     var body: some View {
         VStack(alignment: .leading) {
             // Header
             Group {
                 header
-                Text("Your swipes balance over the semester.")
+                Text(headerText)
                     .fontWeight(.medium)
             }
             
@@ -68,7 +71,7 @@ struct LineGraphView: View {
                             .opacity(0.5)
                     }
                 }
-                .frame(height: 140)
+                .frame(height: self.graphHeight)
                 
                 // Graph
                 VStack {
@@ -76,7 +79,7 @@ struct LineGraphView: View {
                         style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round)
                     )
                         .foregroundColor(color)
-                        .frame(height: 140)
+                        .frame(height: self.graphHeight)
                         .animation(.default)
                         .onAppear {
                             self.trimEnd = 1.0
@@ -93,7 +96,8 @@ struct LineGraphView: View {
                     }
                 }
             }
-            .frame(height: 160.0)
+            .frame(height: self.graphHeight)
+            .padding([.top, .bottom])
         }
         
     }
@@ -101,7 +105,7 @@ struct LineGraphView: View {
 
 struct LineGraphView_Previews: PreviewProvider {
     static var previews: some View {
-        LineGraphView(data: [1.0, 0.86, 0.85, 0.7, 0.67, 0.5, 0.45, 0.4, 0.3, 0.0], yAxisLabels: ["240", "180", "120", "60"], xAxisLabels: ["8/14", "9/14", "10/14", "11/14"], header: CardHeader(color: .blue, icon: .swipes, text: "Swipes"), color: .blue)
+        LineGraphView(data: [1.0, 0.86, 0.85, 0.7, 0.67, 0.5, 0.45, 0.4, 0.3, 0.0], yAxisLabels: ["240", "180", "120", "60"], xAxisLabels: ["8/14", "9/14", "10/14", "11/14"], header: CardHeader(color: .blue, icon: .swipes, text: "Swipes"), headerText: "Your swipes balance over the semester.", color: .blue)
     }
 }
 
