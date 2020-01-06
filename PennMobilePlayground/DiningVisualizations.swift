@@ -108,6 +108,75 @@ struct DiningVisualizations: View {
         ScrollView {
             VStack {
                 Group {
+                    CardView {
+                        VStack(alignment: .leading) {
+                            CardHeader(color: .purple, icon: .predictions, text: "Predictions")
+                            
+                            Text("Log into Penn Mobile more often to get more accurate predictions.")
+                                .fontWeight(.medium)
+                            
+                            Divider()
+                                .padding([.top, .bottom])
+                            
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text("Swipes Remaining")
+                                            .font(.caption)
+                                        Text("46 days")
+                                            .font(Font.system(size: 21, weight: .bold, design: .rounded))
+                                    }
+                                    .padding([.trailing, .top, .bottom])
+                                    
+                                    Divider()
+                                        .padding(.trailing)
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text("Dining Dollars Remaining")
+                                            .font(.caption)
+                                        Text("21 days")
+                                            .font(Font.system(size: 21, weight: .bold, design: .rounded))
+                                    }
+                                    Spacer()
+                                }
+                                Text("Based on your current balance and past behavior, we project you'll run out of balance on this date.")
+                                    .font(.caption).frame(height: 36)
+                                    .padding(.bottom)
+                                    .foregroundColor(.gray)
+                                
+                                
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text("Out of Swipes")
+                                            .font(.caption)
+                                        Text("Dec. 15th")
+                                            .font(Font.system(size: 21, weight: .bold, design: .rounded))
+                                    }
+                                    .padding([.trailing, .top, .bottom])
+                                    
+                                    Divider()
+                                        .padding([.leading, .trailing])
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text("Out of Dining Dollars")
+                                            .font(.caption)
+                                        Text("Dec. 2nd")
+                                            .font(Font.system(size: 21, weight: .bold, design: .rounded))
+                                    }
+                                    Spacer()
+                                }
+                                Text("Based on your current balance and past behavior, we project you have this many days of balance remaining.")
+                                    .font(.caption).frame(height: 36)
+                                    .foregroundColor(.gray)
+                                    .padding(.bottom)
+                            }
+                        }
+                        .padding()
+                    }
+                    .padding()
+                }
+                
+                Group {
                     // Balance row 1
                     HStack {
                         DiningBalanceView(description: "Swipes", image: Image(systemName: "creditcard.fill"), balance: 58.00, specifier: "%.f", color: .green)
@@ -148,15 +217,9 @@ struct DiningVisualizations: View {
                 
                 CardView {
                     FrequentLocationsView()
-                    .padding()
-                }
-                .padding()
-                
-                CardView {
-                    Text("Hello World this is a Card.")
                         .padding()
                 }
-                .padding([.leading, .trailing, .bottom])
+                .padding()
                 
                 CardView {
                     VStack(alignment: .leading) {

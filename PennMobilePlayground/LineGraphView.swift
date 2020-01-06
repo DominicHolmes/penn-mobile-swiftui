@@ -11,16 +11,24 @@ import SwiftUI
 struct CardHeader: View {
     
     enum IconType {
-        case dollars, swipes
+        case dollars, swipes, predictions
     }
     
     let color: Color
     let icon: IconType
     let text: String
     
+    private func imageName(for icon: IconType) -> String {
+        switch icon {
+        case .dollars: return "dollarsign.circle.fill"
+        case .swipes: return "creditcard.fill"
+        case .predictions: return "wand.and.stars"
+        }
+    }
+    
     var body: some View {
         HStack {
-            Image(systemName: icon == .dollars ? "dollarsign.circle.fill" : "creditcard.fill")
+            Image(systemName: imageName(for: icon))
             Text(text)
         }
         .font(Font.body.weight(.medium))
