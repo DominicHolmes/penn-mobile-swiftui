@@ -70,45 +70,59 @@ struct DiningRecommendations: View {
                     .font(Font.body.weight(.medium))
                     .foregroundColor(.green)
                 }
-                .padding(.bottom)
                 
                 VStack(alignment: .leading) {
-                    Text("\(chosenPlan.name) Plan  (\(chosenPlan.acronym))")
-                        .font(Font.system(size: 17, weight: .medium, design: .rounded))
-                    HStack(alignment: .lastTextBaseline) {
+                    HStack {
+                        Text("\(chosenPlan.name) Plan")
+                        .fontWeight(.medium)
+                        Spacer()
+                        Text("\(chosenPlan.acronym)")
+                        .fontWeight(.medium)
+                        .foregroundColor(Color.primary.opacity(0.5))
+                    }
+                    HStack(alignment: .lastTextBaseline, spacing: 4) {
                         Text("$\(chosenPlan.cost * semesters)")
                         .font(Font.system(size: 28, weight: .bold, design: .rounded))
+                        
                         Text("per \(semesters == 1 ? "semester" : "year")")
-                        .font(Font.system(size: 17, weight: .regular, design: .rounded))
-                            .foregroundColor(.gray)
+                        .font(Font.caption.weight(.bold)).foregroundColor(.gray)
                         Spacer()
                     }
                 }
                 
-                Divider().padding([.top, .bottom])
+                Divider().padding([.bottom])
                 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("$\(chosenPlan.dollars * semesters) DD")
-                                .font(Font.system(size: 21, weight: .bold, design: .rounded))
-                            Text("$\(chosenPlan.estimatedDollarsPerWeek, specifier: "%.2f") per week")
-                            .font(.subheadline)
-                            .opacity(0.5)
+                        HStack(alignment: .lastTextBaseline, spacing: 4) {
+                            Text("\(chosenPlan.dollars * semesters)")
+                            .font(Font.system(size: 21, weight: .bold, design: .rounded))
+                            Text("Dining Dollars")
+                            .font(Font.caption.weight(.bold)).foregroundColor(.gray)
+                        }.padding(.bottom, 6)
+                        
+                        Text("\(chosenPlan.estimatedDollarsPerWeek, specifier: "%.2f") DD per week")
+                            .font(Font.caption.weight(.regular)).foregroundColor(.gray)
+                            .opacity(0.8)
                         Text("$\(chosenPlan.estimatedCostPerDiningDollar, specifier: "%.2f") per DD")
-                            .font(.subheadline)
-                            .opacity(0.5)
+                            .font(Font.caption.weight(.regular)).foregroundColor(.gray)
+                            .opacity(0.8)
                     }
                     Spacer()
                     VStack(alignment: .trailing) {
-                        Text("\(chosenPlan.swipes * semesters) swipes")
-                                .font(Font.system(size: 21, weight: .bold, design: .rounded))
-                            
-                        Text("\(chosenPlan.estimatedSwipesPerWeek, specifier: "%.1f") per week")
-                            .font(.subheadline)
-                            .opacity(0.5)
-                        Text("$\(chosenPlan.estimatedCostPerSwipe, specifier: "%.2f") per swipe")
-                            .font(.subheadline)
-                            .opacity(0.5)
+                        HStack(alignment: .lastTextBaseline, spacing: 4) {
+                            Text("\(chosenPlan.swipes * semesters)")
+                            .font(Font.system(size: 21, weight: .bold, design: .rounded))
+                            Text("Swipes")
+                            .font(Font.caption.weight(.bold)).foregroundColor(.gray)
+                        }.padding(.bottom, 6)
+
+                        Text("\(chosenPlan.estimatedSwipesPerWeek, specifier: "%.1f") per Week")
+                            .font(Font.caption.weight(.regular)).foregroundColor(.gray)
+                            .opacity(0.8)
+                        Text("$\(chosenPlan.estimatedCostPerSwipe, specifier: "%.2f") per Swipe")
+                            .font(Font.caption.weight(.regular)).foregroundColor(.gray)
+                            .opacity(0.8)
                     }
                 }
                 .padding(.bottom)
