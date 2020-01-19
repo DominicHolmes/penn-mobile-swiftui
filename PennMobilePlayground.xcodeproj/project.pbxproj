@@ -13,6 +13,7 @@
 		F212BE7023B69A9500ED46A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F212BE6F23B69A9500ED46A1 /* Assets.xcassets */; };
 		F212BE7323B69A9500ED46A1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F212BE7223B69A9500ED46A1 /* Preview Assets.xcassets */; };
 		F212BE7623B69A9500ED46A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F212BE7423B69A9500ED46A1 /* LaunchScreen.storyboard */; };
+		F24F60E623D26876009E0A44 /* TransactionsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24F60E523D26876009E0A44 /* TransactionsCardView.swift */; };
 		F27AA01023BA9FF200276C4F /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27AA00F23BA9FF200276C4F /* PrivacyView.swift */; };
 		F29672AA23C2F4CF00FD12EC /* LineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29672A923C2F4CF00FD12EC /* LineGraphView.swift */; };
 		F2CF6B1D23BDA43E00333BBB /* DiningVisualizations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CF6B1C23BDA43E00333BBB /* DiningVisualizations.swift */; };
@@ -32,6 +33,7 @@
 		F212BE7223B69A9500ED46A1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F212BE7523B69A9500ED46A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F212BE7723B69A9500ED46A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F24F60E523D26876009E0A44 /* TransactionsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsCardView.swift; sourceTree = "<group>"; };
 		F27AA00F23BA9FF200276C4F /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		F29672A923C2F4CF00FD12EC /* LineGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineGraphView.swift; sourceTree = "<group>"; };
 		F2CF6B1C23BDA43E00333BBB /* DiningVisualizations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiningVisualizations.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				F27AA00F23BA9FF200276C4F /* PrivacyView.swift */,
 				F2CF6B1C23BDA43E00333BBB /* DiningVisualizations.swift */,
 				F2E1419623C2CDD9009D69AA /* FrequentLocationsView.swift */,
+				F24F60E523D26876009E0A44 /* TransactionsCardView.swift */,
 				F29672A923C2F4CF00FD12EC /* LineGraphView.swift */,
 				F2E1419823C2D6AA009D69AA /* PortionView.swift */,
 				F2E1419023C1B904009D69AA /* DiningRecommendations.swift */,
@@ -181,6 +184,7 @@
 				F212BE6E23B69A9200ED46A1 /* ContentView.swift in Sources */,
 				F2E1419123C1B904009D69AA /* DiningRecommendations.swift in Sources */,
 				F2E1419323C1BEC6009D69AA /* SliderView.swift in Sources */,
+				F24F60E623D26876009E0A44 /* TransactionsCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

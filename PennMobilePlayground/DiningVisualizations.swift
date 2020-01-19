@@ -55,11 +55,11 @@ struct DiningBalanceView: View {
 struct DiningVisualizations: View {
     
     @State var selectedData: Int? = nil
-    @State var toggleOn: Bool = false
+    @State var toggleOn: Bool = true
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     var data: [CGFloat] {
-        return toggleOn ? [0.2, 0.5, 0.6, 0.2, 0.7, 0.0, 0.9] : [0, 0, 0, 0, 0, 0, 0]
+        return toggleOn ? [1.0, 0.7, 0.6, 0.4, 0.38, 0.35, 0.3] : [0, 0, 0, 0, 0, 0, 0]
     }
     
     var lineData: [CGFloat] {
@@ -104,6 +104,9 @@ struct DiningVisualizations: View {
         }
     }
     
+    let yAxisLabels = ["400", "200", "0"]
+    let xAxisLabels = ["8/14", "9/14", "10/14", "11/14"]
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -130,6 +133,93 @@ struct DiningVisualizations: View {
                             .padding(.trailing)
                     }
                     .padding([.top, .bottom])
+                }
+                
+                Group {
+                    CardView {
+                        TransactionsCardView()
+                        .padding()
+                    }
+                .padding()
+                }
+                
+                Group {
+                    CardView {
+                        VStack(alignment: .leading) {
+                            CardHeader(color: .purple, icon: .predictions, text: "Swipe Predictions")
+                            
+                            Text("Log into Penn Mobile often to get more accurate predictions.")
+                                .fontWeight(.medium)
+                            
+                            Divider()
+                                .padding([.top, .bottom])
+                            
+                            VStack(alignment: .leading) {
+                                
+                                HStack(alignment: .top, spacing: 20) {
+                                    // Y-Axis labels
+                                    VStack(alignment: .center) {
+                                        ForEach(0 ..< self.yAxisLabels.count) { num in
+                                            if num != 0 { Spacer() }
+                                            Text(self.yAxisLabels[num])
+                                                .font(.subheadline)
+                                                .opacity(0.5)
+                                        }
+                                    }
+                                    .frame(height: 100)
+                                    
+                                    // Graph
+                                    VStack {
+                                        GraphPath(data: self.data).stroke(
+                                            style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round)
+                                        )
+                                            .foregroundColor(.blue)
+                                            .frame(height: 100)
+                                            .animation(.default)
+                                        
+                                        // X-Axis labels
+                                        HStack {
+                                            ForEach(0 ..< self.xAxisLabels.count) { num in
+                                                if num != 0 { Spacer() }
+                                                Text(self.xAxisLabels[num])
+                                                    .font(.subheadline)
+                                                    .opacity(0.5)
+                                            }
+                                        }
+                                    }
+                                }
+                                .frame(height: 100)
+                                .padding([.top, .bottom])
+                                
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text("Out of Swipes")
+                                            .font(.caption)
+                                        Text("Dec. 15th")
+                                            .font(Font.system(size: 21, weight: .bold, design: .rounded))
+                                    }
+                                    .padding([.trailing, .top, .bottom])
+                                    
+                                    Divider()
+                                        .padding([.leading, .trailing])
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text("Out of Dining Dollars")
+                                            .font(.caption)
+                                        Text("Dec. 2nd")
+                                            .font(Font.system(size: 21, weight: .bold, design: .rounded))
+                                    }
+                                    Spacer()
+                                }
+                                Text("Based on your current balance and past behavior, we project you have this many days of balance remaining.")
+                                    .font(.caption).frame(height: 36)
+                                    .foregroundColor(.gray)
+                                    .padding(.bottom)
+                            }
+                        }
+                        .padding()
+                    }
+                    .padding()
                 }
                 
                 Group {
