@@ -142,7 +142,6 @@ struct DiningVisualizations: View {
                     }
                 .padding()
                 }
-                
                 Group {
                     CardView {
                         VStack(alignment: .leading) {

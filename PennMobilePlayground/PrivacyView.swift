@@ -48,9 +48,10 @@ struct PrivacyView: View {
             
             Spacer()
 
-            FullButton(action: shareCourses, content: Text("Share Courses with Penn Labs"), foreground: .white, background: .blue)
+            FullButton(action: shareCourses, content: Text("Share Courses with Penn Labs"), foreground: .white, background: .white)
             FullButton(action: doNotShareCourses, content: Text("Don't Share"), foreground: .primary, background: .clear)
         }
+        .background(LinearGradient(gradient: Gradient(colors: [.red, .blue]), startPoint: .bottomLeading, endPoint: .topTrailing))
     }
     
     func moreAboutLabs() {
@@ -74,15 +75,26 @@ struct FullButton: View {
     var background: Color? = .blue
     
     var body: some View {
-        Button(action: action) {
-            content
+        ZStack {
+            RoundedRectangle(cornerRadius: 17, style: .continuous)
+                .foregroundColor(Color.white)
+            LinearGradient(gradient: Gradient(colors: [.red, .blue]), startPoint: .bottomLeading, endPoint: .topTrailing)
+                .mask(
+                    Text("Hello World")
+                    .padding()
+                )
+        }
+        /*Button(action: action) {
+            
+                
+            Text("Hello World")
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .padding(.vertical, 20)
-            .foregroundColor(foreground)
-            .background(background)
-            .clipShape(RoundedRectangle(cornerRadius: 17, style: .continuous))
+                .foregroundColor(.black)
+                .mask(RoundedRectangle(cornerRadius: 17, style: .continuous).background(Color.white))
             .padding(.horizontal)
-        }
+            
+        }*/
     }
 }
         
