@@ -330,6 +330,7 @@ struct DiningVisualizations: View {
                             Text("Over the last 7 days, you spent an average of 7.49 dining dollars per day.")
                                 .fontWeight(.medium)
                         }
+                        
                         // Graph view
                         Spacer()
                         ZStack {
@@ -411,47 +412,6 @@ struct DiningVisualizations: View {
                         .padding()
                 }
                 .padding()
-                
-                //                CardView {
-                //                    VStack {
-                //                        HStack {
-                //                            Text(self.selectedData == nil ? "Swipe burn rate 2" : self.dayValue)
-                //                                .font(.subheadline)
-                //                                .opacity(0.5)
-                //                            .animation(nil)
-                //                            Spacer()
-                //                            Text(self.selectedData == nil ? "$5.74" : "$\(self.data[self.selectedData!] * 11.39, specifier: "%.2f")")
-                //                                .font(.subheadline)
-                //                                .foregroundColor(self.selectedData == nil ? .primary : .green)
-                //                            .animation(nil)
-                //                        }
-                //                        Spacer()
-                //                        ZStack(alignment: .bottom) {
-                //                            VStack {
-                //                                GraphPath(data: self.lineData).trim(from: 0, to: self.trimEnd).stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [6]))
-                //                                    .padding(.bottom)
-                //                                    .foregroundColor(self.toggleOn ? .blue : Color.black.opacity(0.2))
-                //
-                //                                    .animation(.easeInOut)
-                //
-                //
-                //
-                //                                HStack() {
-                //                                    ForEach(0..<self.lineData.count) { num in
-                //                                        if num != 0 { Spacer() }
-                //                                        Text("W\(num)")
-                //                                        .font(.subheadline)
-                //                                        .opacity(0.5)
-                //                                    }
-                //                                }
-                //                            }
-                //                        }.animation(.default)
-                //                    }
-                //                    .padding()
-                //                    .animation(.default)
-                //                }
-                //                .frame(height: 220)
-                //                .padding([.leading, .trailing, .bottom])
             }
         }
     }
