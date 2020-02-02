@@ -60,10 +60,7 @@ struct TransactionsCardView: View {
     var body: some View {
         VStack(alignment: .leading) {
             
-            CardHeader(color: .green, icon: .dollars, text: "Transactions")
-            
-            Text("Your recent dining dollar transactions.")
-            .fontWeight(.medium)
+            CardHeaderView(color: .green, icon: .dollars, title: "Transactions", subtitle: "Your recent dining dollar transactions.")
             
             Divider()
                 .padding([.top, .bottom])
@@ -71,25 +68,7 @@ struct TransactionsCardView: View {
             VStack {
                 ForEach(self.data, id: \.self) { trans in
                     VStack {
-                        HStack {
-                            Image(systemName: "circle.fill")
-                            .resizable()
-                                .frame(width: 10, height: 10)
-                                .foregroundColor(trans.color)
-                            VStack(alignment: .leading) {
-                                Text(trans.location.fullName)
-                                Text(trans.formattedDate)
-                                    .font(.caption).foregroundColor(.gray)
-                            }
-                            Spacer()
-                            VStack(alignment: .trailing) {
-                                Text(trans.formattedAmount)
-                                    .fontWeight(.medium)
-                                    .foregroundColor(trans.amount > 0 ? .green : .red)
-                                Text(String(trans.balance))
-                                    .font(.caption).foregroundColor(.gray)
-                            }
-                        }
+                        TransactionCardRowView(transaction: trans)
                         Divider()
                     }
                 }

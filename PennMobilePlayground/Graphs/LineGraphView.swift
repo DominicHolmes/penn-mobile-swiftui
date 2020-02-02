@@ -8,41 +8,12 @@
 
 import SwiftUI
 
-struct CardHeader: View {
-    
-    enum IconType {
-        case dollars, swipes, predictions
-    }
-    
-    let color: Color
-    let icon: IconType
-    let text: String
-    
-    private func imageName(for icon: IconType) -> String {
-        switch icon {
-        case .dollars: return "dollarsign.circle.fill"
-        case .swipes: return "creditcard.fill"
-        case .predictions: return "wand.and.rays"
-        }
-    }
-    
-    var body: some View {
-        HStack {
-            Image(systemName: imageName(for: icon))
-            Text(text)
-        }
-        .font(Font.body.weight(.medium))
-        .foregroundColor(color)
-    }
-}
-
 struct LineGraphView: View {
     
     @State var data: [CGFloat]
     let yAxisLabels: [String]
     let xAxisLabels: [String]
-    let header: CardHeader
-    let headerText: String
+    let header: CardHeaderView
     let color: Color
     @State private var trimEnd: CGFloat = 0.0
     
@@ -50,12 +21,7 @@ struct LineGraphView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            // Header
-            Group {
-                header
-                Text(headerText)
-                    .fontWeight(.medium)
-            }
+            header
             
             // Divider
             Divider()
@@ -105,7 +71,7 @@ struct LineGraphView: View {
 
 struct LineGraphView_Previews: PreviewProvider {
     static var previews: some View {
-        LineGraphView(data: [1.0, 0.86, 0.85, 0.7, 0.67, 0.5, 0.45, 0.4, 0.3, 0.0], yAxisLabels: ["240", "180", "120", "60"], xAxisLabels: ["8/14", "9/14", "10/14", "11/14"], header: CardHeader(color: .blue, icon: .swipes, text: "Swipes"), headerText: "Your swipes balance over the semester.", color: .blue)
+        LineGraphView(data: [1.0, 0.86, 0.85, 0.7, 0.67, 0.5, 0.45, 0.4, 0.3, 0.0], yAxisLabels: ["240", "180", "120", "60"], xAxisLabels: ["8/14", "9/14", "10/14", "11/14"], header: CardHeaderView(color: .blue, icon: .swipes, title: "Swipes", subtitle: "Your swipes balance over the semester."), color: .green)
     }
 }
 

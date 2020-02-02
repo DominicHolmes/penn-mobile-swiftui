@@ -8,20 +8,6 @@
 
 import SwiftUI
 
-struct CardView<Content> : View where Content : View {
-    let content: () -> Content
-    @Environment(\.colorScheme) private var colorScheme: ColorScheme
-    
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(self.colorScheme == ColorScheme.light ? Color.white : Color.gray.opacity(0.2))
-                .shadow(color: Color.black.opacity(0.2), radius: 4, x: 2, y: 2)
-            self.content()
-        }
-    }
-}
-
 struct DiningBalanceView: View {
     
     let description: String
@@ -86,6 +72,8 @@ struct DiningVisualizations: View {
         return self.dollarData.count <= 7 ? 6 : (self.dollarData.count <= 33 ? 2 : 0)
     }
     
+    let graphSwipeData = VariableStepLineGraphView.getSmoothedData(from: DiningTransaction.sampleData)
+    
     var dayOfWeek = ["M", "T", "W", "T", "F", "S", "S", "M", "T", "W", "T", "F", "S", "S", "M", "T", "W", "T", "F", "S", "S"]
     
     let timeFrames = ["This Week", "Last Week"]
@@ -145,10 +133,7 @@ struct DiningVisualizations: View {
                 Group {
                     CardView {
                         VStack(alignment: .leading) {
-                            CardHeader(color: .purple, icon: .predictions, text: "Swipe Predictions")
-                            
-                            Text("Log into Penn Mobile often to get more accurate predictions.")
-                                .fontWeight(.medium)
+                            CardHeaderView(color: .purple, icon: .predictions, title: "Swipe Predictions", subtitle: "Log into Penn Mobile often to get more accurate predictions.")
                             
                             Divider()
                                 .padding([.top, .bottom])
@@ -224,10 +209,7 @@ struct DiningVisualizations: View {
                 Group {
                     CardView {
                         VStack(alignment: .leading) {
-                            CardHeader(color: .purple, icon: .predictions, text: "Predictions")
-                            
-                            Text("Log into Penn Mobile often to get more accurate predictions.")
-                                .fontWeight(.medium)
+                            CardHeaderView(color: .purple, icon: .predictions, title: "Predictions", subtitle: "Log into Penn Mobile often to get more accurate predictions.")
                             
                             Divider()
                                 .padding([.top, .bottom])
@@ -292,13 +274,37 @@ struct DiningVisualizations: View {
                 
                 Group {
                     CardView {
-                        LineGraphView(data: [1.0, 0.86, 0.85, 0.7, 0.67, 0.5, 0.45, 0.4, 0.3, 0.0], yAxisLabels: ["240", "180", "120", "60"], xAxisLabels: ["8/14", "9/14", "10/14", "11/14"], header: CardHeader(color: .blue, icon: .swipes, text: "Swipes"), headerText: "Your balance over the semester.", color: .blue)
-                            .padding()
+                        VStack(alignment: .leading) {
+                            CardHeaderView(color: .blue, icon: .predictions, title: "Swipes Predictions", subtitle: "Log into Penn Mobile often to get more accurate predictions.")
+                                .frame(height: 50)
+                            Divider()
+                                .padding([.top, .bottom])
+                            VariableStepLineGraphView(data: self.graphSwipeData, lastPointPosition: self.graphSwipeData.last?.x ?? 0)
+                            Divider()
+                            .padding([.top, .bottom])
+                            
+                            HStack(alignment: .top) {
+                                VStack(alignment: .leading) {
+                                    Text("Out of Swipes")
+                                        .font(.caption)
+                                    Text("Dec. 15th")
+                                        .font(Font.system(size: 21, weight: .bold, design: .rounded))
+                                }
+                                
+                                Divider()
+                                .padding([.leading, .trailing])
+                                
+                                Text("Based on your current balance and past behavior, we project you have this many days of balance remaining.")
+                                .font(.caption).frame(height: 60)
+                                .foregroundColor(.gray)
+                            }
+                        }
+                        .padding()
                     }
                     .padding()
                     
                     CardView {
-                        LineGraphView(data: [1.0, 0.95, 0.92, 0.7, 0.3, 0.21, 0.19, 0.1, 0.09, 0.0], yAxisLabels: ["400", "310", "220", "130"], xAxisLabels: ["8/14", "9/14", "10/14", "11/14"], header: CardHeader(color: .green, icon: .dollars, text: "Dining Dollars"), headerText: "Your balance over the semester.", color: .green)
+                        LineGraphView(data: [1.0, 0.95, 0.92, 0.7, 0.3, 0.21, 0.19, 0.1, 0.09, 0.0], yAxisLabels: ["400", "310", "220", "130"], xAxisLabels: ["8/14", "9/14", "10/14", "11/14"], header: CardHeaderView(color: .green, icon: .dollars, title: "Dining Dollars", subtitle: "Your balance over the semester."), color: .green)
                             .padding()
                     }
                     .padding()

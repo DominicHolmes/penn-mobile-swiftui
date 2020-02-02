@@ -16,7 +16,7 @@ struct DiningLocationFrequency {
 
 struct FrequentLocationsView: View {
     
-    enum Granularity: CaseIterable {
+    enum LengthOfTime: CaseIterable {
         case week, month, semester
     }
     
@@ -32,15 +32,15 @@ struct FrequentLocationsView: View {
     @State private var portions: [Double] = [0.25, 0.3, 0.125, 0.125, 0.2]
     @State private var colors: [Color] = [.orange, .yellow, .green, .blue, .pink, .purple, .red]
     
-    @State private var granularity: Int = 0
+    @State private var lengthOfTime: Int = 0
     
-    func computeTotal(for granularity: Int) -> [Double] {
+    func computeTotal(for lengthOfTime: Int) -> [Double] {
         let sum = data.reduce(0.0) { (result, freq) -> Double in
-            result + freq.totals[granularity]
+            result + freq.totals[lengthOfTime]
         }
         var values = [Double]()
         for freq in data {
-            values.append(freq.totals[granularity] / sum)
+            values.append(freq.totals[lengthOfTime] / sum)
         }
         return values
     }
@@ -56,7 +56,7 @@ struct FrequentLocationsView: View {
                 .font(Font.body.weight(.medium))
                 .foregroundColor(.green)
                 
-                Text("Your dining dollar totals for each location over the last \(["week", "month", "semester"][granularity]).")
+                Text("Your dining dollar totals for each location over the last \(["week", "month", "semester"][lengthOfTime]).")
                 .fontWeight(.medium)
                 .lineLimit(nil)
                 .frame(height: 44)
@@ -78,12 +78,12 @@ struct FrequentLocationsView: View {
                             .foregroundColor(self.data[index].color)
                         Text(self.data[index].location)
                         Spacer()
-                        Text("$\(self.data[index].totals[self.granularity], specifier: "%.2f")")
+                        Text("$\(self.data[index].totals[self.lengthOfTime], specifier: "%.2f")")
                     }
                 }
             }
             
-            Picker("Pick a time frame", selection: $granularity) {
+            Picker("Pick a time frame", selection: $lengthOfTime) {
                 ForEach(0...2, id: \.self) { index in
                     Text(["This Week", "This Month", "This Semester"][index])
                 }
@@ -91,9 +91,9 @@ struct FrequentLocationsView: View {
             .labelsHidden()
             .pickerStyle(SegmentedPickerStyle())
             .padding(.top)
-            .onReceive([self.granularity].publisher.first()) { (output) in
+            .onReceive([self.lengthOfTime].publisher.first()) { (output) in
                 withAnimation {
-                    self.portions = self.computeTotal(for: self.granularity)
+                    self.portions = self.computeTotal(for: self.lengthOfTime)
                 }
             }
             

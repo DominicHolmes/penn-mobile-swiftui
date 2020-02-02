@@ -17,6 +17,10 @@
 		F24F60E623D26876009E0A44 /* TransactionsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24F60E523D26876009E0A44 /* TransactionsCardView.swift */; };
 		F24F60E823D4C68B009E0A44 /* VariableStepLineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24F60E723D4C68B009E0A44 /* VariableStepLineGraphView.swift */; };
 		F27AA01023BA9FF200276C4F /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27AA00F23BA9FF200276C4F /* PrivacyView.swift */; };
+		F28396FE23E739F2009083D6 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28396FD23E739F2009083D6 /* CardView.swift */; };
+		F283970123E73D6E009083D6 /* CardHeaderTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F283970023E73D6E009083D6 /* CardHeaderTitleView.swift */; };
+		F283970323E73DB3009083D6 /* CardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F283970223E73DB3009083D6 /* CardHeaderView.swift */; };
+		F283970623E7422B009083D6 /* TransactionCardRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F283970523E7422B009083D6 /* TransactionCardRowView.swift */; };
 		F29672AA23C2F4CF00FD12EC /* LineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29672A923C2F4CF00FD12EC /* LineGraphView.swift */; };
 		F2CF6B1D23BDA43E00333BBB /* DiningVisualizations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CF6B1C23BDA43E00333BBB /* DiningVisualizations.swift */; };
 		F2E1419123C1B904009D69AA /* DiningRecommendations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E1419023C1B904009D69AA /* DiningRecommendations.swift */; };
@@ -39,6 +43,10 @@
 		F24F60E523D26876009E0A44 /* TransactionsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsCardView.swift; sourceTree = "<group>"; };
 		F24F60E723D4C68B009E0A44 /* VariableStepLineGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableStepLineGraphView.swift; sourceTree = "<group>"; };
 		F27AA00F23BA9FF200276C4F /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
+		F28396FD23E739F2009083D6 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		F283970023E73D6E009083D6 /* CardHeaderTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardHeaderTitleView.swift; sourceTree = "<group>"; };
+		F283970223E73DB3009083D6 /* CardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardHeaderView.swift; sourceTree = "<group>"; };
+		F283970523E7422B009083D6 /* TransactionCardRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCardRowView.swift; sourceTree = "<group>"; };
 		F29672A923C2F4CF00FD12EC /* LineGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineGraphView.swift; sourceTree = "<group>"; };
 		F2CF6B1C23BDA43E00333BBB /* DiningVisualizations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiningVisualizations.swift; sourceTree = "<group>"; };
 		F2E1419023C1B904009D69AA /* DiningRecommendations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiningRecommendations.swift; sourceTree = "<group>"; };
@@ -82,16 +90,13 @@
 				F212BE6B23B69A9200ED46A1 /* SceneDelegate.swift */,
 				F212BE6D23B69A9200ED46A1 /* ContentView.swift */,
 				F2CF6B1C23BDA43E00333BBB /* DiningVisualizations.swift */,
-				F27AA00F23BA9FF200276C4F /* PrivacyView.swift */,
+				F28396FF23E73ADC009083D6 /* Structure */,
+				F283970B23E743C0009083D6 /* Privacy */,
 				F21D03D323DE09800073FB86 /* LoginScreen.swift */,
-				F2E1419623C2CDD9009D69AA /* FrequentLocationsView.swift */,
-				F24F60E523D26876009E0A44 /* TransactionsCardView.swift */,
-				F24F60E723D4C68B009E0A44 /* VariableStepLineGraphView.swift */,
-				F29672A923C2F4CF00FD12EC /* LineGraphView.swift */,
-				F2E1419823C2D6AA009D69AA /* PortionView.swift */,
-				F2E1419023C1B904009D69AA /* DiningRecommendations.swift */,
-				F2E1419223C1BEC6009D69AA /* SliderView.swift */,
-				F2E1419423C1CF45009D69AA /* CustomizableSlider.swift */,
+				F283970423E74219009083D6 /* Transactions */,
+				F283970A23E743B0009083D6 /* Graphs */,
+				F283970923E743A4009083D6 /* Dining Plans */,
+				F283970823E74396009083D6 /* Atoms */,
 				F212BE6F23B69A9500ED46A1 /* Assets.xcassets */,
 				F212BE7423B69A9500ED46A1 /* LaunchScreen.storyboard */,
 				F212BE7723B69A9500ED46A1 /* Info.plist */,
@@ -106,6 +111,61 @@
 				F212BE7223B69A9500ED46A1 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F28396FF23E73ADC009083D6 /* Structure */ = {
+			isa = PBXGroup;
+			children = (
+				F28396FD23E739F2009083D6 /* CardView.swift */,
+				F283970223E73DB3009083D6 /* CardHeaderView.swift */,
+				F283970023E73D6E009083D6 /* CardHeaderTitleView.swift */,
+			);
+			path = Structure;
+			sourceTree = "<group>";
+		};
+		F283970423E74219009083D6 /* Transactions */ = {
+			isa = PBXGroup;
+			children = (
+				F2E1419623C2CDD9009D69AA /* FrequentLocationsView.swift */,
+				F2E1419823C2D6AA009D69AA /* PortionView.swift */,
+				F24F60E523D26876009E0A44 /* TransactionsCardView.swift */,
+				F283970523E7422B009083D6 /* TransactionCardRowView.swift */,
+			);
+			path = Transactions;
+			sourceTree = "<group>";
+		};
+		F283970823E74396009083D6 /* Atoms */ = {
+			isa = PBXGroup;
+			children = (
+				F2E1419223C1BEC6009D69AA /* SliderView.swift */,
+				F2E1419423C1CF45009D69AA /* CustomizableSlider.swift */,
+			);
+			path = Atoms;
+			sourceTree = "<group>";
+		};
+		F283970923E743A4009083D6 /* Dining Plans */ = {
+			isa = PBXGroup;
+			children = (
+				F2E1419023C1B904009D69AA /* DiningRecommendations.swift */,
+			);
+			path = "Dining Plans";
+			sourceTree = "<group>";
+		};
+		F283970A23E743B0009083D6 /* Graphs */ = {
+			isa = PBXGroup;
+			children = (
+				F24F60E723D4C68B009E0A44 /* VariableStepLineGraphView.swift */,
+				F29672A923C2F4CF00FD12EC /* LineGraphView.swift */,
+			);
+			path = Graphs;
+			sourceTree = "<group>";
+		};
+		F283970B23E743C0009083D6 /* Privacy */ = {
+			isa = PBXGroup;
+			children = (
+				F27AA00F23BA9FF200276C4F /* PrivacyView.swift */,
+			);
+			path = Privacy;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -183,16 +243,20 @@
 				F2E1419723C2CDD9009D69AA /* FrequentLocationsView.swift in Sources */,
 				F29672AA23C2F4CF00FD12EC /* LineGraphView.swift in Sources */,
 				F2E1419523C1CF45009D69AA /* CustomizableSlider.swift in Sources */,
+				F28396FE23E739F2009083D6 /* CardView.swift in Sources */,
 				F2CF6B1D23BDA43E00333BBB /* DiningVisualizations.swift in Sources */,
 				F212BE6A23B69A9200ED46A1 /* AppDelegate.swift in Sources */,
 				F2E1419923C2D6AA009D69AA /* PortionView.swift in Sources */,
 				F27AA01023BA9FF200276C4F /* PrivacyView.swift in Sources */,
 				F212BE6C23B69A9200ED46A1 /* SceneDelegate.swift in Sources */,
+				F283970623E7422B009083D6 /* TransactionCardRowView.swift in Sources */,
 				F212BE6E23B69A9200ED46A1 /* ContentView.swift in Sources */,
 				F2E1419123C1B904009D69AA /* DiningRecommendations.swift in Sources */,
 				F21D03D423DE09800073FB86 /* LoginScreen.swift in Sources */,
+				F283970123E73D6E009083D6 /* CardHeaderTitleView.swift in Sources */,
 				F2E1419323C1BEC6009D69AA /* SliderView.swift in Sources */,
 				F24F60E623D26876009E0A44 /* TransactionsCardView.swift in Sources */,
+				F283970323E73DB3009083D6 /* CardHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
