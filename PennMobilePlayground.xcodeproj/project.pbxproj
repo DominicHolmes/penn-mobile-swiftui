@@ -90,6 +90,7 @@
 				F212BE6B23B69A9200ED46A1 /* SceneDelegate.swift */,
 				F212BE6D23B69A9200ED46A1 /* ContentView.swift */,
 				F2CF6B1C23BDA43E00333BBB /* DiningVisualizations.swift */,
+				F240E3BA23EE0EE60040176E /* Predictions */,
 				F28396FF23E73ADC009083D6 /* Structure */,
 				F283970B23E743C0009083D6 /* Privacy */,
 				F21D03D323DE09800073FB86 /* LoginScreen.swift */,
@@ -111,6 +112,13 @@
 				F212BE7223B69A9500ED46A1 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F240E3BA23EE0EE60040176E /* Predictions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Predictions;
 			sourceTree = "<group>";
 		};
 		F28396FF23E73ADC009083D6 /* Structure */ = {
