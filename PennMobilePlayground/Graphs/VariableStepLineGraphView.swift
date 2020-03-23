@@ -8,11 +8,13 @@
 
 import SwiftUI
 
+//MARK: - DONE
 struct YXDataPoint {
     var y: CGFloat // Bound between 0 and 1
     var x: CGFloat // Bound between 0 and 1
 }
 
+//MARK: - DONE
 struct VariableStepGraphPath: Shape, Animatable {
     @State var data: [YXDataPoint]
     
@@ -42,6 +44,7 @@ struct VariableStepGraphPath: Shape, Animatable {
     }
 }
 
+//MARK: - DONE
 struct PredictionSlopePath: Shape, Animatable {
     // This should be the last data point before prediction line begins
     @State var data: YXDataPoint
@@ -72,6 +75,7 @@ struct PredictionSlopePath: Shape, Animatable {
     }
 }
 
+//MARK: - DONE
 struct GraphEndpointPath: Shape {
     // The x value of the path (between 0 and 1)
     @State var x: CGFloat
@@ -93,6 +97,7 @@ struct GraphEndpointPath: Shape {
     }
 }
 
+//MARK: - DONE
 struct VariableStepLineGraphView: View {
     /*@State var data: [YXDataPoint]
     let yAxisLabels: [String]
@@ -228,59 +233,6 @@ struct VariableStepLineGraphView: View {
             .frame(height: 20)
         }
     }
-        
-        
-        /*VStack(alignment: .leading) {
-            // Header
-            Group {
-                header
-                Text(headerText)
-                    .fontWeight(.medium)
-            }
-            
-            // Divider
-            Divider()
-                .padding([.top, .bottom])
-            
-            HStack(alignment: .top, spacing: 20) {
-                // Y-Axis labels
-                VStack(alignment: .center) {
-                    ForEach(0 ..< self.yAxisLabels.count) { num in
-                        if num != 0 { Spacer() }
-                        Text(self.yAxisLabels[num])
-                            .font(.subheadline)
-                            .opacity(0.5)
-                    }
-                }
-                .frame(height: self.graphHeight)
-                
-                // Graph
-                VStack {
-                    GraphPath(data: self.data).trim(from: 0, to: self.trimEnd).stroke(
-                        style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round)
-                    )
-                        .foregroundColor(color)
-                        .frame(height: self.graphHeight)
-                        .animation(.default)
-                        .onAppear {
-                            self.trimEnd = 1.0
-                    }
-                    
-                    // X-Axis labels
-                    HStack {
-                        ForEach(0 ..< self.xAxisLabels.count) { num in
-                            if num != 0 { Spacer() }
-                            Text(self.xAxisLabels[num])
-                                .font(.subheadline)
-                                .opacity(0.5)
-                        }
-                    }
-                }
-            }
-            .frame(height: self.graphHeight)
-            .padding([.top, .bottom])
-        }*/
-        
 }
 
 struct VariableStepLineGraphView_Previews: PreviewProvider {
@@ -289,18 +241,3 @@ struct VariableStepLineGraphView_Previews: PreviewProvider {
         return VariableStepLineGraphView(data: data, lastPointPosition: data.last?.x ?? 0)
     }
 }
-
-protocol ClampableRange {
-    associatedtype Bound : Comparable
-    var upperBound: Bound { get }
-    var lowerBound: Bound { get }
-}
-
-extension ClampableRange {
-    func clamp(_ value: Bound) -> Bound {
-        return min(max(lowerBound, value), upperBound)
-    }
-}
-
-extension Range : ClampableRange {}
-extension ClosedRange : ClampableRange {}
