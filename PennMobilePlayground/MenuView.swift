@@ -38,12 +38,14 @@ struct MenuView: View {
         VStack {
             List {
                 DiningHeaderView(config: config)
-                
+
                 Picker(selection: $selectedTab, label: Text("Select a dining tab.")) {
                     ForEach(0..<tabs.count) { index in
                         Text(self.tabs[index]).tag(index)
                     }
-                }.pickerStyle(SegmentedPickerStyle())
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding([.top, .bottom])
                 
                 if selectedTab == 0 {
                     ToggleableMenuItemsView(meals: meals)
@@ -93,7 +95,7 @@ struct ToggleableMenuItemsView: View {
                 header:
                 HStack {
                     Text(meal.title)
-                        .font(Font.system(size: 24).weight(.medium))
+                        .font(Font.system(size: 21).weight(.medium))
                     Spacer()
                     Image(systemName: "chevron.down")
                         .rotationEffect(.degrees(self.isExpanded(meal.id) ? 180 : 0))
