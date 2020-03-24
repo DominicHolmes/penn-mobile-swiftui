@@ -1,21 +1,80 @@
 import SwiftUI
 
+struct DiningHeaderView: View {
+    
+    let config: DiningMenuAPIResponse
+    
+    var statusHeader: some View {
+        HStack {
+            Image(systemName: "circle.fill")
+                .foregroundColor(config.isOpen ? .green : .gray)
+            Text(config.currentMeal)
+                .foregroundColor(config.isOpen ? .green : .gray)
+        }
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            statusHeader
+            Text(config.name).font(.title)
+            Image.init(config.imageURL)
+                .resizable()
+                .frame(height: 200)
+                .cornerRadius(14)
+                .padding(.bottom)
+                .scaledToFit()
+        }
+    }
+}
+
 struct MenuView: View {
+    
+    let config: DiningMenuAPIResponse
+    
+    @State private var selectedTab = 0
+    var tabs = ["Menus", "Hours", "Location"]
+    
     var body: some View {
         VStack {
-            Text("1920 Commons").font(.largeTitle)
-            Image.init("commons")
-                .resizable()
-                .frame(width: 128, height: 128)
-                .cornerRadius(20)
-                .shadow(radius: 5)
             List {
-                ToggleableMenuItemsView(meals: meals)
-                .padding()
+                DiningHeaderView(config: config)
+                
+                Picker(selection: $selectedTab, label: Text("Select a dining tab.")) {
+                    ForEach(0..<tabs.count) { index in
+                        Text(self.tabs[index]).tag(index)
+                    }
+                }.pickerStyle(SegmentedPickerStyle())
+                
+                if selectedTab == 0 {
+                    ToggleableMenuItemsView(meals: meals)
+                } else if selectedTab == 1 {
+                    Section (header:
+                        HStack {
+                            Text("Today")
+                                .padding()
+                            Spacer()
+                        }.background(Color.blue).listRowInsets(EdgeInsets(
+                            top: 0,
+                            leading: 0,
+                            bottom: 0,
+                            trailing: 0))
+                    ) {
+                        Text("yep")
+                    }
+                } else if selectedTab == 2 {
+                    Section (header: Text("Address"), content: {
+                        Text("hello")
+                        Text("address")
+                    })
+                    Section (header: Text("Address"), content: {
+                        Text("hello")
+                        Text("address")
+                    })
+                }
             }
         }
     }
-
+    
     private var bounds: CGRect { UIScreen.main.bounds }
 }
 
@@ -31,8 +90,22 @@ struct ToggleableMenuItemsView: View {
     var body: some View {
         ForEach(meals) { meal in
             Section(
-                header: Text(meal.title)
-                    .font(.title)
+                header:
+                HStack {
+                    Text(meal.title)
+                        .font(Font.system(size: 24).weight(.medium))
+                    Spacer()
+                    Image(systemName: "chevron.down")
+                        .rotationEffect(.degrees(self.isExpanded(meal.id) ? 180 : 0))
+                }
+                .padding()
+                    // Color is required to make the whole cell tappable
+                    .background(Color(white: 0.95))
+                    .listRowInsets(EdgeInsets(
+                        top: 0,
+                        leading: 0,
+                        bottom: 0,
+                        trailing: 0))
                     .onTapGesture {
                         self.expandedStates[meal.id] = !self.isExpanded(meal.id)
                 },
@@ -40,8 +113,23 @@ struct ToggleableMenuItemsView: View {
                     if self.isExpanded(meal.id) {
                         ForEach(meal.stations) { station in
                             Section(
-                                header: Text(station.title)
-                                    .font(.headline)
+                                header:
+                                HStack {
+                                    Text(station.title)
+                                        .font(Font.system(size: 17).weight(.medium))
+                                    Spacer()
+                                    Image(systemName: "chevron.down")
+                                        .rotationEffect(.degrees(self.isExpanded(station.id) ? 180 : 0))
+                                }
+                                .padding()
+                                .padding(.leading)
+                                    // Color is required to make the whole cell tappable
+                                    .background(Color(white: 0.95))
+                                    .listRowInsets(EdgeInsets(
+                                        top: 0,
+                                        leading: 0,
+                                        bottom: 0,
+                                        trailing: 0))
                                     .onTapGesture {
                                         self.expandedStates[station.id] = !self.isExpanded(station.id)
                                 },
@@ -60,13 +148,13 @@ struct ToggleableMenuItemsView: View {
 
 struct MealItemListView: View {
     let items: [MealItem]
-
+    
     var body: some View {
         ForEach(items) { item in
             VStack(alignment: .leading) {
                 HStack {
                     Text(item.title)
-                    .font(.subheadline)
+                        .font(.body)
                     ForEach(item.attributes, id: \.self) { attribute in
                         attribute.icon
                     }
@@ -74,11 +162,20 @@ struct MealItemListView: View {
                 if item.description != "" {
                     Text(item.description)
                         .font(.caption)
+                        .fontWeight(.light)
                 }
             }
-            
+            .padding(.leading)
         }
     }
+}
+
+struct DiningMenuAPIResponse {
+    let name: String
+    let currentMeal: String
+    let imageURL: String
+    let isOpen: Bool
+    let meals: [Meal]
 }
 
 struct Meal: Identifiable {
@@ -110,6 +207,8 @@ struct MealItem: Identifiable {
             switch self {
             case .vegan:
                 return "v.circle.fill"
+            case .lowGluten:
+                return "g.circle.fill"
             default:
                 return "circle.fill"
             }
@@ -119,6 +218,8 @@ struct MealItem: Identifiable {
             switch self {
             case .vegan:
                 return .green
+            case .lowGluten:
+                return .orange
             default:
                 return .gray
             }
@@ -141,7 +242,7 @@ struct MealItem: Identifiable {
 let meals = [
     Meal(title: "Breakfast", stations: [
         MealStation(title: "Breakfast Grill", items: [
-            MealItem(title: "Pancakes", description: "kinda shitty small pancakes", attribute: .vegan),
+            MealItem(title: "Pancakes roast turkey, red leaf lettuce, jersey tomato, red onion roast turkey, red leaf lettuce, jersey tomato, red onion", description: "roast turkey, red leaf lettuce, jersey tomato, red onion, lemon basil aioli, ficelle roast turkey, red leaf lettuce, jersey tomato, red onion, lemon basil aioli, ficelle", attributes: [.vegan, .lowGluten]),
             MealItem(title: "Eggs"),
             MealItem(title: "Bacon", attribute: .vegan),
             MealItem(title: "Sausage", description: "kinda shitty small pancakes"),
@@ -180,73 +281,10 @@ let meals = [
     ])
 ]
 
-
-
-
-
-
-
-struct MenuItem: Identifiable {
-    var id: String = UUID().uuidString
-    let title: String
-    var children: [MenuItem] = []
-}
-
-let menuItems = [
-    MenuItem(
-        id: "01",
-        title: "Breakfast",
-        children: [
-            MenuItem(
-                id: "01A",
-                title: "Breakfast Grill",
-                children: [
-                    MenuItem(
-                        id: "01A01",
-                        title: "Pancakes"
-                    ),
-                    MenuItem(
-                        id: "01A02",
-                        title: "Eggs"
-                    ),
-                    MenuItem(
-                        id: "01A03",
-                        title: "Sausage"
-                    ),
-                    MenuItem(
-                        id: "01A04",
-                        title: "Omelet Bar"
-                    )
-                ]
-            ),
-            MenuItem(
-                id: "01B",
-                title: "Kettles",
-                children: [
-                    MenuItem(
-                        id: "01B01",
-                        title: "Oatmeal"
-                    ),
-                    MenuItem(
-                        id: "01B02",
-                        title: "Tofu Scramble"
-                    ),
-                    MenuItem(
-                        id: "01B03",
-                        title: "Soup"
-                    ),
-                    MenuItem(
-                        id: "01B04",
-                        title: "Other"
-                    )
-                ]
-            )
-        ]
-    )
-]
+let config = DiningMenuAPIResponse(name: "1920 Commons", currentMeal: "Breakfast", imageURL: "commons", isOpen: true, meals: meals)
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuView()
+        MenuView(config: config)
     }
 }
